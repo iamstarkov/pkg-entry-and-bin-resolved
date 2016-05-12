@@ -4,7 +4,7 @@ import Promise from 'pinkie-promise';
 import resolveCwd from 'resolve-cwd';
 import p from 'path';
 import entry from 'pkg-entry';
-import loadJson from 'load-json';
+import loadJson from 'load-json-file';
 
 // all :: [Promise a] -> Promise [a]
 const all = Promise.all.bind(Promise);
@@ -13,7 +13,7 @@ const all = Promise.all.bind(Promise);
 const toPromise = Promise.resolve.bind(Promise);
 
 // getEntry :: String -> Promise String
-const getEntry = R.pipe(
+const getEntry = R.pipeP(
   loadJson,
   entry
 );
@@ -29,11 +29,7 @@ function pkgEntryAndBinResolved(pkg) {
   return R.pipeP(toPromise,
     contract('pkg', String),
     resolveCwd,
-    // R.converge(resolvePath, [p.dirname, getEntry]),
-    // R.converge(resolvePath, [p.dirname, getEntry]),
-    getEntry,
-    R.tap(console.log),
-    // R.call,
+    R.converge(resolvePath, [p.dirname, getEntry]),
     R.of,
     R.identity
   )(pkg);
