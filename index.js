@@ -16,8 +16,8 @@ const toPromise = Promise.resolve.bind(Promise);
 const log = R.tap(console.log.bind(console)); // eslint-disable-line
 const id = R.identity; // eslint-disable-line
 
-// getEntryAndBins :: String -> Promise String
-const getEntryAndBins = R.pipeP(
+// entryAndBins :: String -> Promise String
+const entryAndBins = R.pipeP(
   loadJson,
   R.of,
   R.ap([entry, bins]),
@@ -31,7 +31,7 @@ function pkgEntryAndBinResolved(pkg) {
     resolveCwd,
     R.when(R.isNil, () => { throw new Error(`Can't open ${pkg}`); }),
     R.of,
-    R.ap([p.dirname, getEntryAndBins]),
+    R.ap([p.dirname, entryAndBins]),
     all,
     R.apply((root, files) => files.map(_ => p.resolve(root, _))),
     log,
