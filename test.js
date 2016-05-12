@@ -18,7 +18,7 @@ test('bins', async t => {
   t.deepEqual(_, mapPreCwd(['./fixtures/index.js', './fixtures/one.js', './fixtures/two.js']));
 });
 
-test('basic', async t => {
+test.only('basic', async t => {
   const _ = await pkgEntryAndBinResolved('./fixtures/basic.json');
   t.deepEqual(_, mapPreCwd(['./fixtures/entry.js', './fixtures/one.js', './fixtures/two.js']));
 });
