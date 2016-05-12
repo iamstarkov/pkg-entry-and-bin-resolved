@@ -35,6 +35,7 @@ function pkgEntryAndBinResolved(pkg) {
   return R.pipeP(toPromise,
     contract('pkg', String),
     resolveCwd,
+    R.when(R.isNil, () => { throw new Error(`Can't open ${pkg}`); }),
     R.converge(resolvePath, [p.dirname, getEntryAndBins])
   )(pkg);
 }

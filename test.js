@@ -23,5 +23,6 @@ test('basic', async t => {
   t.deepEqual(_, mapPreCwd(['./fixtures/entry.js', './fixtures/one.js', './fixtures/two.js']));
 });
 
+test('unresolvable file', t => t.throws(pkgEntryAndBinResolved('./fixtures/nope.json'), Error));
 test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
 test('invalid input', t => t.throws(pkgEntryAndBinResolved(2), TypeError));
