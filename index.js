@@ -4,6 +4,7 @@ import Promise from 'pinkie-promise';
 import resolveCwd from 'resolve-cwd';
 import p from 'path';
 import entry from 'pkg-entry';
+import bins from 'pkg-bin-paths';
 import loadJson from 'load-json-file';
 
 // all :: [Promise a] -> Promise [a]
@@ -15,6 +16,7 @@ const toPromise = Promise.resolve.bind(Promise);
 // getEntry :: String -> Promise String
 const getEntry = R.pipeP(
   loadJson,
+  // bin
   entry
 );
 
