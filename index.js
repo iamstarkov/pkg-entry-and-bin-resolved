@@ -13,16 +13,16 @@ const all = Promise.all.bind(Promise);
 // toPromise :: a -> Promise a
 const toPromise = Promise.resolve.bind(Promise);
 
-const log = R.tap(console.log.bind(console)); // eslint-disable-line
-const id = R.identity; // eslint-disable-line
-
 // entryAndBins :: String -> Promise String
-const entryAndBins = R.pipeP(
+const entryAndBins = R.pipeP(toPromise,
   loadJson,
   R.of,
   R.ap([entry, bins]),
   R.unnest
 );
+
+// resolveRelatedToPkg :: String -> [String] -> [String]
+const resolveRelatedToPkg = (pkg, files) => files.map(_ => p.resolve(pkg, _));
 
 // pkgEntryAndBinResolved :: String -> Promise [String]
 function pkgEntryAndBinResolved(pkg) {
@@ -33,9 +33,7 @@ function pkgEntryAndBinResolved(pkg) {
     R.of,
     R.ap([p.dirname, entryAndBins]),
     all,
-    R.apply((root, files) => files.map(_ => p.resolve(root, _))),
-    log,
-    id
+    R.apply(resolveRelatedToPkg)
   )(pkg);
 }
 
