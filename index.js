@@ -13,17 +13,21 @@ const all = Promise.all.bind(Promise);
 // toPromise :: a -> Promise a
 const toPromise = Promise.resolve.bind(Promise);
 
-// getEntry :: String -> Promise String
-const getEntry = R.pipeP(
+const log = R.tap(console.log); // eslint-disable-line
+const id = R.identity; // eslint-disable-line
+
+// getEntryAndBins :: String -> Promise String
+const getEntryAndBins = R.pipeP(
   loadJson,
-  // bin
-  entry
+  R.of,
+  R.ap([entry, bins]),
+  R.unnest
 );
 
 // resolvePath :: Promise... -> String
 const resolvePath = R.pipeP(
   R.unapply(all),
-  R.apply(p.resolve)
+  R.apply((pkg, files) => files.map(_ => p.resolve(pkg, _)))
 );
 
 // pkgEntryAndBinResolved :: String -> Promise [String]
@@ -31,9 +35,7 @@ function pkgEntryAndBinResolved(pkg) {
   return R.pipeP(toPromise,
     contract('pkg', String),
     resolveCwd,
-    R.converge(resolvePath, [p.dirname, getEntry]),
-    R.of,
-    R.identity
+    R.converge(resolvePath, [p.dirname, getEntryAndBins])
   )(pkg);
 }
 

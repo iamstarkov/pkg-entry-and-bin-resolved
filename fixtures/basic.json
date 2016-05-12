@@ -1,0 +1,8 @@
+{
+  "main": "./entry.es5.js",
+  "jsnext:main": "./entry.js",
+  "bin": {
+    "one": "./one.js",
+    "two": "./two.js"
+  }
+}

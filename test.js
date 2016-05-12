@@ -13,9 +13,14 @@ test('entry', async t => {
   t.deepEqual(_, mapPreCwd(['./fixtures/entry.js']));
 });
 
-test.skip('bins', async t => {
+test('bins', async t => {
   const _ = await pkgEntryAndBinResolved('./fixtures/bins.json');
-  t.deepEqual(_, mapPreCwd(['./fixtures/one.js', './fixtures/two.js']));
+  t.deepEqual(_, mapPreCwd(['./fixtures/index.js', './fixtures/one.js', './fixtures/two.js']));
+});
+
+test('basic', async t => {
+  const _ = await pkgEntryAndBinResolved('./fixtures/basic.json');
+  t.deepEqual(_, mapPreCwd(['./fixtures/entry.js', './fixtures/one.js', './fixtures/two.js']));
 });
 
 test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
