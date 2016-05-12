@@ -1,18 +1,17 @@
 import test from 'ava';
-import { pkgEntryAndBinResolved, pkgEntryAndBinResolvedAsync } from './index';
+import pkgEntryAndBinResolved from './index';
+import path from 'path';
+import R from 'ramda';
 
-test('basic', t => t.is(
-  pkgEntryAndBinResolved('unicorns'),
-  'unicorns'
-));
+// preCwd :: String -> String
+const preCwd = i => path.join(process.cwd(), i);
 
-test('empty input', t => t.throws(() => { pkgEntryAndBinResolved(); }, TypeError));
-test('invalid input', t => t.throws(() => { pkgEntryAndBinResolved(2); }, TypeError));
+const mapPreCwd = R.map(preCwd);
 
-test('async :: basic', async t => t.is(
-  await pkgEntryAndBinResolvedAsync('unicorns'),
-  'unicorns'
-));
+test('entry', async t => {
+  const _ = await pkgEntryAndBinResolved('./fixtures/entry/package.json');
+  t.deepEqual(_, mapPreCwd(['./fixtures/entry/yo.js']));
+});
 
-test('async :: empty input', t => t.throws(pkgEntryAndBinResolvedAsync(), TypeError));
-test('async :: invalid input', t => t.throws(pkgEntryAndBinResolvedAsync(2), TypeError));
+test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
+test('invalid input', t => t.throws(pkgEntryAndBinResolved(2), TypeError));
