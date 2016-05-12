@@ -1,3 +1,4 @@
 {
-  "main": "./entry.js"
+  "main": "./entry.es5.js",
+  "jsnext:main": "./entry.js"
 }
