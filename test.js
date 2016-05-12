@@ -10,7 +10,12 @@ const mapPreCwd = R.map(preCwd);
 
 test('entry', async t => {
   const _ = await pkgEntryAndBinResolved('./fixtures/entry.json');
-  t.deepEqual(_, mapPreCwd(['./fixtures/entry-main.js']));
+  t.deepEqual(_, mapPreCwd(['./fixtures/entry.js']));
+});
+
+test('jsnext-entry', async t => {
+  const _ = await pkgEntryAndBinResolved('./fixtures/jsnext-entry.json');
+  t.deepEqual(_, mapPreCwd(['./fixtures/jsnext-entry.js']));
 });
 
 test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
