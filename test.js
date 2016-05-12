@@ -13,5 +13,10 @@ test('entry', async t => {
   t.deepEqual(_, mapPreCwd(['./fixtures/entry.js']));
 });
 
+test('bins', async t => {
+  const _ = await pkgEntryAndBinResolved('./fixtures/bins.json');
+  t.deepEqual(_, mapPreCwd(['./fixtures/one.js', './fixtures/two.js']));
+});
+
 test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
 test('invalid input', t => t.throws(pkgEntryAndBinResolved(2), TypeError));
