@@ -59,7 +59,7 @@
     "rimraf": "^2.5.2"
   },
   "dependencies": {
-    "load-json-file": "^2.0.0",
+    "load-json-file": "1.1.0",
     "neat-contract": "^1.1.0",
     "pinkie-promise": "^2.0.1",
     "pkg-bin-paths": "^1.0.0",
