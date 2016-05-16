@@ -1,6 +1,6 @@
 {
   "name": "pkg-entry-and-bin-resolved",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "`main` entry and `bin` paths resolved from package.json",
   "main": "index.es5.js",
   "jsnext:main": "index.js",
