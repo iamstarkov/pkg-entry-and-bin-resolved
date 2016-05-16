@@ -10,7 +10,7 @@ const mapPreCwd = R.map(preCwd);
 
 test('entry', async t => {
   const _ = await pkgEntryAndBinResolved('./fixtures/entry.json');
-  t.deepEqual(_, mapPreCwd(['./fixtures/entry.js']));
+  t.deepEqual(_, mapPreCwd(['./fixtures/src/index.js']));
 });
 
 test('bins', async t => {
@@ -18,11 +18,12 @@ test('bins', async t => {
   t.deepEqual(_, mapPreCwd(['./fixtures/index.js', './fixtures/one.js', './fixtures/two.js']));
 });
 
-test.only('basic', async t => {
+test('basic', async t => {
   const _ = await pkgEntryAndBinResolved('./fixtures/basic.json');
-  t.deepEqual(_, mapPreCwd(['./fixtures/entry.js', './fixtures/one.js', './fixtures/two.js']));
+  t.deepEqual(_, mapPreCwd(['./fixtures/src/index.js', './fixtures/one.js', './fixtures/two.js']));
 });
 
 test('unresolvable file', t => t.throws(pkgEntryAndBinResolved('./fixtures/nope.json'), Error));
+test('unresolvable file', t => t.throws(pkgEntryAndBinResolved('./fixtures/unresolved-entry.json'), Error)); // eslint-disable-line
 test('empty input', t => t.throws(pkgEntryAndBinResolved(), TypeError));
 test('invalid input', t => t.throws(pkgEntryAndBinResolved(2), TypeError));

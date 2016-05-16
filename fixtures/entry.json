@@ -1,4 +1,4 @@
 {
-  "main": "./entry.es5.js",
-  "jsnext:main": "./entry.js"
+  "main": "dist",
+  "jsnext:main": "src"
 }
