@@ -1,7 +1,7 @@
 import R from 'ramda';
 import contract from 'neat-contract';
 import Promise from 'pinkie-promise';
-import resolveCwd from 'resolve-cwd';
+import _resolveCwd from 'resolve-cwd';
 import p from 'path';
 import entry from 'pkg-entry';
 import bins from 'pkg-bin-paths';
@@ -21,6 +21,12 @@ const entryAndBins = R.pipeP(toPromise,
   R.unnest
 );
 
+// resolveCwd :: String -> Promise String
+const resolveCwd = file => R.pipeP(toPromise,
+  _resolveCwd,
+  R.when(R.isNil, () => { throw new Error(`Can't open ${process.cwd() + file}`); })
+)(file);
+
 // resolveRelatedToPkg :: String -> [String] -> [String]
 const resolveRelatedToPkg = (pkg, files) => files.map(_ => p.resolve(pkg, _));
 
@@ -29,11 +35,12 @@ function pkgEntryAndBinResolved(pkg) {
   return R.pipeP(toPromise,
     contract('pkg', String),
     resolveCwd,
-    R.when(R.isNil, () => { throw new Error(`Can't open ${pkg}`); }),
     R.of,
     R.ap([p.dirname, entryAndBins]),
     all,
-    R.apply(resolveRelatedToPkg)
+    R.apply(resolveRelatedToPkg),
+    R.map(resolveCwd),
+    all
   )(pkg);
 }
 
