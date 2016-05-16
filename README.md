@@ -15,36 +15,27 @@
 ## Usage
 
 ```js
-import { pkgEntryAndBinResolved, pkgEntryAndBinResolvedAsync } from 'pkg-entry-and-bin-resolved';
+import pkgEntryAndBinResolved from 'pkg-entry-and-bin-resolved';
 
-pkgEntryAndBinResolved('unicorns'); // unicorns
-pkgEntryAndBinResolvedAsync('unicorns')
-  .then(result => console.log(result)); // unicorns
+pkgEntryAndBinResolvedAsync('./fixtures/basic.json')
+  .then(result => console.log(result)); /* [
+    '/Users/iamstarkov/projects/pkg-entry-and-bin-resolved/fixtures/src/index.js',
+    '/Users/iamstarkov/projects/pkg-entry-and-bin-resolved/fixtures/one.js',
+    '/Users/iamstarkov/projects/pkg-entry-and-bin-resolved/fixtures/two.js' ] */
 ```
 
 ## API
 
-### pkgEntryAndBinResolved(input, [options])
+### pkgEntryAndBinResolved(pkg)
 
-### pkgEntryAndBinResolvedAsync(input, [options])
+Return a promise that resolves flat array of `main` entry and `binaries` resolved.
 
-Return a promise that resolves to `result`.
-
-#### input
+#### pkg
 
 *Required*  
 Type: `String`
 
-Lorem ipsum.
-
-#### options
-
-##### foo
-
-Type: `Boolean`  
-Default: `false`
-
-Lorem ipsum.
+Path to `package.json`.
 
 ## License
 
